@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -341,6 +342,52 @@ private fun SportsDetail(
         }
     }
 }
+@Composable
+fun SportsListAndDetails(
+    sportsList: List<Sport>,
+    onSportClick: (Sport) -> Unit,
+    selectedSport: Sport,
+    onBackPressed: () -> Unit,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+)
+{
+    Row(modifier = modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+
+    ) {
+        SportsList(
+            sports = sportsList,
+            onClick = onSportClick,
+            modifier = Modifier.weight(1f).padding(end = 16.dp)
+        )
+        SportsDetail(
+            selectedSport = selectedSport,
+            onBackPressed = onBackPressed,
+            contentPadding = contentPadding,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 1000)
+@Composable
+fun SportsListAndDetailsPreview()
+{
+    val sportsList = LocalSportsDataProvider.getSportsData()
+    SportsTheme {
+        Scaffold { innerPadding ->
+            SportsListAndDetails(
+                sportsList = sportsList,
+                onSportClick = {},
+                selectedSport = sportsList[0],
+                onBackPressed = {},
+                contentPadding = innerPadding
+            )
+        }
+    }
+}
+
 
 @Preview
 @Composable
